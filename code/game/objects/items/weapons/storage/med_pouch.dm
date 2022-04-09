@@ -33,6 +33,9 @@ Single Use Emergency Pouches
 	for(var/obj/item/chems/hypospray/autoinjector/A in contents)
 		A.band_color = color
 		A.update_icon()
+	for(var/obj/item/chems/inhaler/I in contents)
+		I.band_color = color
+		I.update_icon()
 
 /obj/item/storage/med_pouch/on_update_icon()
 	overlays.Cut()
@@ -112,7 +115,7 @@ Single Use Emergency Pouches
 
 	startswith = list(
 		/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
-		/obj/item/chems/hypospray/autoinjector/pouch_auto/oxy_meds,
+		/obj/item/chems/inhaler/pouch_auto/oxy_meds,
 		/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
 		/obj/item/chems/pill/pouch_pill/stabilizer,
 		/obj/item/chems/pill/pouch_pill/oxy_meds
@@ -164,9 +167,32 @@ Single Use Emergency Pouches
 	6) Stay in place once they respond.\
 		"}
 
+/obj/item/storage/med_pouch/overdose
+	name = "overdose treatment pouch"
+	injury_type = "overdose"
+	color = COLOR_PALE_BLUE_GRAY
+
+	startswith = list(
+		/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
+		/obj/item/chems/inhaler/pouch_auto/oxy_meds,
+		/obj/item/chems/inhaler/pouch_auto/detoxifier,
+		/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline
+	)
+	instructions = {"
+	1) Tear open the emergency medical pack using the easy open tab at the top.\n\
+	\t2) Carefully remove all items from the pouch and discard the pouch.\n\
+	\t3) Apply all autoinjectors and autoinhalers to the injured party. DO NOT give the injured party any pills, foods, or liquids.\n\
+	\t5) Contact the medical team with your location.\n\
+	\t6) Find a source of oxygen if possible.\n\
+	\t7) Update the medical team with your new location.\n\
+	8) Stay in place once they respond.\
+		"}
+
+// Pills
+
 /obj/item/chems/pill/pouch_pill
 	name = "emergency pill"
-	desc = "An emergency pill from an emergency medical pouch"
+	desc = "An emergency pill from an emergency medical pouch."
 	icon_state = "pill2"
 	var/decl/material/chem_type
 	var/chem_amount = 15
@@ -188,9 +214,11 @@ Single Use Emergency Pouches
 	var/decl/material/reagent = GET_DECL(chem_type)
 	SetName("emergency [reagent.liquid_name] pill ([reagents.total_volume]u)")
 
+// Injectors
+
 /obj/item/chems/hypospray/autoinjector/pouch_auto
 	name = "emergency autoinjector"
-	desc = "An emergency autoinjector from an emergency medical pouch"
+	desc = "An emergency autoinjector from an emergency medical pouch."
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer
 	name = "emergency stabilizer autoinjector"
@@ -212,3 +240,17 @@ Single Use Emergency Pouches
 	name = "emergency adrenaline autoinjector"
 	amount_per_transfer_from_this = 8
 	starts_with = list(/decl/material/liquid/adrenaline = 8)
+
+// Inhalers
+
+/obj/item/chems/inhaler/pouch_auto
+	name = "emergency autoinhaler"
+	desc = "An emergency autoinhaler from an emergency medical pouch."
+
+/obj/item/chems/inhaler/pouch_auto/oxy_meds
+	name = "emergency oxygel autoinjector"
+	starts_with = list(/decl/material/liquid/oxy_meds = 5)
+
+/obj/item/chems/inhaler/pouch_auto/detoxifier
+	name = "emergency detoxifier autoinjector"
+	starts_with = list(/decl/material/liquid/detoxifier = 5)
